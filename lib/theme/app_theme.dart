@@ -67,8 +67,6 @@ class AppTheme {
       onTertiary: Colors.white,
       error: errorColor,
       onError: Colors.white,
-      background: backgroundColor,
-      onBackground: textPrimaryColor,
       surface: cardColor,
       onSurface: textPrimaryColor,
     ),
@@ -187,8 +185,8 @@ class AppTheme {
       ),
     ),
     checkboxTheme: CheckboxThemeData(
-      fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-        if (states.contains(MaterialState.selected)) {
+      fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.selected)) {
           return primaryColor;
         }
         return Colors.transparent;
@@ -198,22 +196,22 @@ class AppTheme {
       ),
     ),
     radioTheme: RadioThemeData(
-      fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-        if (states.contains(MaterialState.selected)) {
+      fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.selected)) {
           return primaryColor;
         }
         return textSecondaryColor;
       }),
     ),
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith<Color>((states) {
-        if (states.contains(MaterialState.selected)) {
+      thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.selected)) {
           return primaryColor;
         }
         return Colors.white;
       }),
-      trackColor: MaterialStateProperty.resolveWith<Color>((states) {
-        if (states.contains(MaterialState.selected)) {
+      trackColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.selected)) {
           return primaryColor.withOpacity(0.5);
         }
         return Colors.grey.withOpacity(0.5);
@@ -323,8 +321,6 @@ class AppTheme {
       onTertiary: Colors.white,
       error: errorColor,
       onError: Colors.white,
-      background: darkBackgroundColor,
-      onBackground: darkTextPrimaryColor,
       surface: darkCardColor,
       onSurface: darkTextPrimaryColor,
     ),
@@ -443,8 +439,8 @@ class AppTheme {
       ),
     ),
     checkboxTheme: CheckboxThemeData(
-      fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-        if (states.contains(MaterialState.selected)) {
+      fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.selected)) {
           return darkPrimaryColor;
         }
         return Colors.transparent;
@@ -454,22 +450,22 @@ class AppTheme {
       ),
     ),
     radioTheme: RadioThemeData(
-      fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-        if (states.contains(MaterialState.selected)) {
+      fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.selected)) {
           return darkPrimaryColor;
         }
         return darkTextSecondaryColor;
       }),
     ),
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith<Color>((states) {
-        if (states.contains(MaterialState.selected)) {
+      thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.selected)) {
           return darkPrimaryColor;
         }
         return Colors.white;
       }),
-      trackColor: MaterialStateProperty.resolveWith<Color>((states) {
-        if (states.contains(MaterialState.selected)) {
+      trackColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.selected)) {
           return darkPrimaryColor.withOpacity(0.5);
         }
         return Colors.grey.withOpacity(0.5);

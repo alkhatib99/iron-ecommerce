@@ -177,7 +177,7 @@ class ProductDetailScreen extends StatelessWidget {
                       children: [
                         TableRow(
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surfaceVariant,
+                            color: Theme.of(context).colorScheme.surfaceContainerHighest,
                           ),
                           children: [
                             TableCell(
@@ -333,6 +333,6 @@ class ProductDetailScreen extends StatelessWidget {
 
 extension StringExtension on String {
   String? get capitalize {
-    return this.isNotEmpty ? '${this[0].toUpperCase()}${this.substring(1)}' : this;
+    return isNotEmpty ? '${this[0].toUpperCase()}${substring(1)}' : this;
   }
 }

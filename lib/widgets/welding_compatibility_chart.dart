@@ -83,7 +83,7 @@ class WeldingCompatibilityChart extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: DataTable(
-        headingRowColor: MaterialStateProperty.all(Colors.grey.shade200),
+        headingRowColor: WidgetStateProperty.all(Colors.grey.shade200),
         columns: const [
           DataColumn(label: Text('Welding Method')),
           DataColumn(label: Text('Compatibility\nwith A36')),

@@ -47,22 +47,22 @@ class SplashController extends GetxController {
   // Start fade and scale animations
   void _startAnimations() {
     // Fade in animation
-    Future.delayed(Duration(milliseconds: 200), () {
+    Future.delayed(const Duration(milliseconds: 200), () {
       opacity.value = 1.0;
     });
     
     // Scale animation
-    Future.delayed(Duration(milliseconds: 200), () {
+    Future.delayed(const Duration(milliseconds: 200), () {
       scale.value = 1.0;
     });
     
     // Rotation animation
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       rotationAngle.value = math.pi * 2 * 0.25; // Quarter turn
     });
     
     // Tagline fade in
-    Future.delayed(Duration(milliseconds: 1200), () {
+    Future.delayed(const Duration(milliseconds: 1200), () {
       taglineOpacity.value = 1.0;
     });
   }
@@ -75,7 +75,7 @@ class SplashController extends GetxController {
     
     int currentStep = 0;
     
-    _progressTimer = Timer.periodic(Duration(milliseconds: interval), (timer) {
+    _progressTimer = Timer.periodic(const Duration(milliseconds: interval), (timer) {
       currentStep++;
       progressValue.value = currentStep / steps;
       
@@ -93,7 +93,7 @@ class SplashController extends GetxController {
     
     int currentStep = 0;
     
-    Timer.periodic(Duration(milliseconds: interval), (timer) {
+    Timer.periodic(const Duration(milliseconds: interval), (timer) {
       currentStep++;
       textProgress.value = currentStep / steps;
       

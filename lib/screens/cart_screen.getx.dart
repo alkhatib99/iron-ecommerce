@@ -171,7 +171,7 @@ class CartScreen extends StatelessWidget {
                             ),
                           ),
                         );
-                      }).toList(),
+                      }),
                       
                       const SizedBox(height: AppTheme.paddingLarge),
                       

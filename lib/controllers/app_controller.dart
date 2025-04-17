@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,18 @@ class AppController extends GetxController {
   // Initialize app
   Future<void> initializeApp() async {
     isLoading.value = true;
+    
+     try{ final res = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: 'aboodjob@gmail.com',
+        password: '10203040',
+      );
+      print(res);
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      print('done');
+    }
+  
     error.value = null;
 
     try {

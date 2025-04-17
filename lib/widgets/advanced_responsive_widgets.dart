@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../utils/responsive_design_system.dart';
-import '../widgets/enhanced_responsive_widgets.dart';
 
 class ResponsiveLayoutBuilder extends StatelessWidget {
   final Widget Function(BuildContext context, BoxConstraints constraints) builder;

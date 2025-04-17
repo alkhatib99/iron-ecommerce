@@ -8,7 +8,7 @@ import '../controllers/splash_controller.dart';
 import '../routes/app_routes.dart';
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class SplashScreen extends StatelessWidget {
     
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -43,17 +43,17 @@ class SplashScreen extends StatelessWidget {
               Center(
                 child: Obx(() => AnimatedOpacity(
                   opacity: controller.opacity.value,
-                  duration: Duration(milliseconds: 800),
+                  duration: const Duration(milliseconds: 800),
                   child: AnimatedScale(
                     scale: controller.scale.value,
-                    duration: Duration(milliseconds: 800),
+                    duration: const Duration(milliseconds: 800),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // Logo with rotation animation
                         Obx(() => TweenAnimationBuilder<double>(
                           tween: Tween<double>(begin: 0, end: controller.rotationAngle.value),
-                          duration: Duration(milliseconds: 1500),
+                          duration: const Duration(milliseconds: 1500),
                           builder: (context, value, child) {
                             return Transform.rotate(
                               angle: value,
@@ -68,7 +68,7 @@ class SplashScreen extends StatelessWidget {
                                       color: Colors.black.withOpacity(0.2),
                                       blurRadius: 10,
                                       spreadRadius: 2,
-                                      offset: Offset(0, 4),
+                                      offset: const Offset(0, 4),
                                     ),
                                   ],
                                 ),
@@ -77,7 +77,7 @@ class SplashScreen extends StatelessWidget {
                                     alignment: Alignment.center,
                                     children: [
                                       // Iron icon
-                                      Icon(
+                                      const Icon(
                                         Icons.iron,
                                         size: 80,
                                         color: Color(0xFF1A237E),
@@ -90,7 +90,7 @@ class SplashScreen extends StatelessWidget {
                                         child: CircularProgressIndicator(
                                           value: controller.progressValue.value,
                                           strokeWidth: 3,
-                                          valueColor: AlwaysStoppedAnimation<Color>(
+                                          valueColor: const AlwaysStoppedAnimation<Color>(
                                             Color(0xFF5C6BC0),
                                           ),
                                         ),
@@ -103,12 +103,12 @@ class SplashScreen extends StatelessWidget {
                           },
                         )),
                         
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         
                         // App name with character animation
                         _AnimatedText(
                           text: "IRON STORE",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -117,12 +117,12 @@ class SplashScreen extends StatelessWidget {
                           controller: controller,
                         ),
                         
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         
                         // Tagline with fade-in animation
                         Obx(() => AnimatedOpacity(
                           opacity: controller.taglineOpacity.value,
-                          duration: Duration(milliseconds: 800),
+                          duration: const Duration(milliseconds: 800),
                           child: Text(
                             "Premium Quality Iron Products",
                             style: TextStyle(
@@ -133,7 +133,7 @@ class SplashScreen extends StatelessWidget {
                           ),
                         )),
                         
-                        SizedBox(height: 50),
+                        const SizedBox(height: 50),
                         
                         // Loading indicator with shimmer effect
                         Container(
@@ -151,7 +151,7 @@ class SplashScreen extends StatelessWidget {
                                   Colors.white,
                                   Colors.white.withOpacity(0.2),
                                 ],
-                                stops: [0.0, 0.5, 1.0],
+                                stops: const [0.0, 0.5, 1.0],
                                 begin: Alignment(-1.0 + (controller.progressValue.value * 3), 0.0),
                                 end: Alignment(1.0 + (controller.progressValue.value * 3), 0.0),
                               ).createShader(bounds);
@@ -166,12 +166,12 @@ class SplashScreen extends StatelessWidget {
                           )),
                         ),
                         
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         
                         // Version text with pulse animation
                         Obx(() => AnimatedOpacity(
                           opacity: controller.versionOpacity.value,
-                          duration: Duration(milliseconds: 500),
+                          duration: const Duration(milliseconds: 500),
                           child: Text(
                             "Version 1.0.0",
                             style: TextStyle(
@@ -215,7 +215,7 @@ class _AnimatedText extends StatelessWidget {
           for (int i = 0; i < text.length; i++)
             AnimatedOpacity(
               opacity: i < visibleCharacters ? 1.0 : 0.0,
-              duration: Duration(milliseconds: 200),
+              duration: const Duration(milliseconds: 200),
               child: Text(
                 text[i],
                 style: style,
@@ -258,7 +258,7 @@ class _ParticlesBackgroundState extends State<_ParticlesBackground> with SingleT
     // Animation controller
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 10),
+      duration: const Duration(seconds: 10),
     )..repeat();
     
     _controller.addListener(() {

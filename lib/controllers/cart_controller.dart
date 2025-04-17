@@ -74,7 +74,7 @@ class CartController extends GetxController {
     error.value = null;
     
     try {
-      final cartItems = await _firebaseService!.getCartItems(userId);
+      final cartItems = await _firebaseService.getCartItems(userId);
       items.clear();
       
       for (var doc in cartItems) {
@@ -107,11 +107,11 @@ class CartController extends GetxController {
     
     try {
       // Clear existing cart
-      await _firebaseService!.clearCart(userId);
+      await _firebaseService.clearCart(userId);
       
       // Add all items
       for (var item in items.values) {
-        await _firebaseService!.addToCart(userId, {
+        await _firebaseService.addToCart(userId, {
           'productId': item.productId,
           'name': item.name,
           'price': item.price,
@@ -131,7 +131,7 @@ class CartController extends GetxController {
   void listenToCart(String userId) {
     if (_firebaseService == null) return;
     
-    _firebaseService!.getCartItemsStream(userId).listen((snapshot) {
+    _firebaseService.getCartItemsStream(userId).listen((snapshot) {
       items.clear();
       
       for (var doc in snapshot.docs) {

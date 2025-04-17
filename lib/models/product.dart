@@ -10,7 +10,7 @@ class Product {
   final String imageUrl;
   final Map<String, dynamic> dimensions;
   final bool inStock;
-  final DateTime createdAt;
+  final String createdAt;
 
   Product({
     required this.id,
@@ -70,18 +70,18 @@ class Product {
   // Convert fronJson to Product
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      price: json['price'],
-      unit: json['unit'],
-      category: json['category'],
-      material: json['material'],
-      grade: json['grade'],
-      imageUrl: json['imageUrl'],
-      dimensions: json['dimensions'],
-      inStock: json['inStock'],
-      createdAt: DateTime.parse(json['createdAt']),
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      description: json['description'] ?? '',
+      price: json['price'] ?? 0.0,
+      unit: json['unit'] ?? '',
+      category: json['category'] ?? '',
+      material: json['material'] ?? '',
+      grade: json['grade'] ?? '',
+      imageUrl: json['imageUrl'] ?? '',
+      dimensions: json['dimensions'] ?? {},
+      inStock: json['inStock'] ?? true,
+      createdAt: DateTime.parse(json['createdAt'] ?? '').toString(),
     );
-  } 
+  }
 }

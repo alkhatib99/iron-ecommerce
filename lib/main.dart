@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,28 +11,34 @@ import 'routes/app_routes.dart';
 import 'controllers/app_controller.dart';
 import 'theme/app_theme.dart';
 
-void main() async {
+ main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
   // Initialize Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  Get.put(FirebaseService());
-  Get.put(AuthService(firebaseService: Get.find<FirebaseService>()));
+await  FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(false);
+
+
+
+
+
   runApp(  MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
     MyApp({super.key});
-  // final firebaseService = FirebaseService();
-  // final authService = AuthService(firebaseService: firebaseService);
-    final authService = Get.find<AuthService>();
+  // final authService = Get.find<AuthService>();
+
   @override
+
   Widget build(BuildContext context) {
     // Initialize AppController
     final appController = Get.put(AppController());
-    
+  // final firebaseService =  Get.put(FirebaseService());
+  //   Get.put(AuthService(firebaseService: Get.find<FirebaseService>()));
     return Obx(() => GetMaterialApp(
       title: 'Iron E-commerce',
       theme: AppTheme.lightTheme,
@@ -39,6 +47,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: Routes.SPLASH,
       getPages: AppPages.pages,
+
+
     ));
   }
 }
+  

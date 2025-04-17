@@ -3,7 +3,6 @@ import 'package:iron_ecommerce_app/models/product.dart';
 import '../theme/app_theme.dart';
 import '../widgets/custom_widgets.dart';
 import '../widgets/responsive_widgets.dart';
-import '../models/product_model.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;

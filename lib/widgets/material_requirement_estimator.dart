@@ -303,7 +303,7 @@ class _MaterialRequirementEstimatorState extends State<MaterialRequirementEstima
                     ],
                   ),
                 );
-              }).toList(),
+              }),
               
               const Divider(height: 32),
               

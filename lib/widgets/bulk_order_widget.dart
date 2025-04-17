@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:iron_ecommerce_app/models/product.dart';
-import '../models/product_model.dart';
 
 class BulkOrderWidget extends StatefulWidget {
   final Product product;

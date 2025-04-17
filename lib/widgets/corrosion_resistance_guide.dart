@@ -175,45 +175,45 @@ class CorrosionResistanceGuide extends StatelessWidget {
     // Return recommendations based on environment
     switch (environment) {
       case 'Indoor':
-        return Column(
+        return const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text('• Raw/Unfinished - Suitable for dry indoor areas'),
             Text('• Painted - Good for general indoor use'),
             Text('• Powder Coated - Excellent for decorative applications'),
           ],
         );
       case 'Outdoor':
-        return Column(
+        return const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text('• Hot-Dip Galvanized - Excellent for outdoor exposure'),
             Text('• Powder Coated - Good with proper maintenance'),
             Text('• Zinc-Aluminum Coated - Very good corrosion resistance'),
           ],
         );
       case 'Coastal':
-        return Column(
+        return const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text('• Hot-Dip Galvanized - Recommended minimum'),
             Text('• Duplex System (Galvanized + Painted) - Excellent protection'),
             Text('• Stainless Steel - Best for severe coastal environments'),
           ],
         );
       case 'Industrial':
-        return Column(
+        return const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text('• Epoxy Coated - Good chemical resistance'),
             Text('• Hot-Dip Galvanized - Good for most industrial settings'),
             Text('• Specialized Coatings - Based on specific chemicals present'),
           ],
         );
       case 'Underground':
-        return Column(
+        return const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text('• Hot-Dip Galvanized - Minimum recommendation'),
             Text('• Coal Tar Epoxy - Excellent for buried applications'),
             Text('• Cathodic Protection - Recommended for critical applications'),
@@ -228,7 +228,7 @@ class CorrosionResistanceGuide extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: DataTable(
-        headingRowColor: MaterialStateProperty.all(Colors.grey.shade200),
+        headingRowColor: WidgetStateProperty.all(Colors.grey.shade200),
         columns: const [
           DataColumn(label: Text('Finish Type')),
           DataColumn(label: Text('Corrosion\nResistance')),
