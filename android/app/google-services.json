@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "816359689039",
+    "project_id": "iron-ecommerce",
+    "storage_bucket": "iron-ecommerce.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816359689039:android:0fbc153214fbc8550bd33a",
+        "android_client_info": {
+          "package_name": "com.ironcompany.ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "816359689039-9i36jo3ti30k5k2cj6dkv1iohjrt9j09.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ironcompany.ecommerce",
+            "certificate_hash": "4714780bbd20eba0fd2e1bfdba2400e1c1a1b41f"
+          }
+        },
+        {
+          "client_id": "816359689039-fkbntkft6c8tmgoep32a7e98hvv3cu4h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi0Zbv7vxpMpunq0JAcCQGnfZrSLSreTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "816359689039-fkbntkft6c8tmgoep32a7e98hvv3cu4h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "816359689039-vg3nou9nskcba6tavl4bagf8cd5jmtu3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ironEcommerceApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

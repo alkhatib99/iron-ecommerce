@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"iron-ecommerce","appId":"1:816359689039:android:0fbc153214fbc8550bd33a","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"iron-ecommerce","configurations":{"android":"1:816359689039:android:0fbc153214fbc8550bd33a","ios":"1:816359689039:ios:f7458201154ef08c0bd33a"}}}}}}
