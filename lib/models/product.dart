@@ -81,7 +81,7 @@ class Product {
       imageUrl: json['imageUrl'] ?? '',
       dimensions: json['dimensions'] ?? {},
       inStock: json['inStock'] ?? true,
-      createdAt: DateTime.parse(json['createdAt'] ?? '').toString(),
+      createdAt: json['createdAt'] ?? DateTime.now().toString(),
     );
   }
 }

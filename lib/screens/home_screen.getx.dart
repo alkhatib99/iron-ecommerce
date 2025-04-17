@@ -22,17 +22,25 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   final List<String> _categories = [
-    'Structural', 'Sheets', 'Pipes', 'Reinforcement', 'Angles'
+    'Structural',
+    'Sheets',
+    'Pipes',
+    'Reinforcement',
+    'Angles'
   ];
   final List<IconData> _categoryIcons = [
-    Icons.view_in_ar, Icons.layers, Icons.circle, Icons.linear_scale, Icons.change_history
+    Icons.view_in_ar,
+    Icons.layers,
+    Icons.circle,
+    Icons.linear_scale,
+    Icons.change_history
   ];
-  
+
   // GetX Controllers
   final ProductController productController = Get.find<ProductController>();
   final CartController cartController = Get.find<CartController>();
   final UserController userController = Get.find<UserController>();
-  
+
   @override
   void initState() {
     super.initState();
@@ -40,11 +48,11 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       productController.loadProducts();
       productController.loadCategories();
-      
+
       // Listen to real-time updates
       productController.listenToProducts();
       productController.listenToCategories();
-      
+
       // Load cart items for current user
       if (userController.isLoggedIn) {
         cartController.loadCart(userController.userData.value!['uid']);
@@ -52,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -62,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _buildCartTab(),
       _buildAccountTab(),
     ];
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Iron E-commerce'),
@@ -116,13 +124,13 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  
+
   Widget _buildHomeTab() {
     return Obx(() {
       if (productController.isLoading.value) {
         return const CustomLoadingIndicator();
       }
-      
+
       if (productController.error.value != null) {
         return CustomErrorWidget(
           message: productController.error.value!,
@@ -132,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         );
       }
-      
+
       if (productController.products.isEmpty) {
         return const CustomEmptyState(
           title: 'No Products Found',
@@ -140,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: Icons.inventory_2_outlined,
         );
       }
-      
+
       return SingleChildScrollView(
         child: ResponsiveContainer(
           padding: const EdgeInsets.all(AppTheme.paddingLarge),
@@ -150,7 +158,8 @@ class _HomeScreenState extends State<HomeScreen> {
               // Promotion banner
               PromotionBanner(
                 title: 'Special Offer',
-                description: 'Get 10% off on all structural steel products. Limited time offer!',
+                description:
+                    'Get 10% off on all structural steel products. Limited time offer!',
                 buttonText: 'Shop Now',
                 onButtonPressed: () {
                   // Navigate to structural category
@@ -160,36 +169,38 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 backgroundColor: Theme.of(context).colorScheme.primary,
               ),
-              
+
               const SizedBox(height: AppTheme.paddingXLarge),
-              
+
               // Categories section
               Text(
                 'Categories',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
-              
+
               const SizedBox(height: AppTheme.paddingLarge),
-              
+
               // Category grid
               SizedBox(
-                height: 120,
+                height: 145,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: _categories.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(right: AppTheme.paddingMedium),
+                      padding:
+                          const EdgeInsets.only(right: AppTheme.paddingMedium),
                       child: SizedBox(
-                        width: 100,
+                        width: 135,
                         child: CategoryCard(
                           category: _categories[index],
                           icon: _categoryIcons[index],
                           onTap: () {
                             // Load products by category
-                            productController.loadProductsByCategory(_categories[index]);
+                            productController
+                                .loadProductsByCategory(_categories[index]);
                             // Navigate to categories tab
                             setState(() {
                               _currentIndex = 1;
@@ -201,19 +212,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              
+
               const SizedBox(height: AppTheme.paddingXLarge),
-              
+
               // Featured products section
               Text(
                 'Featured Products',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
-              
+
               const SizedBox(height: AppTheme.paddingLarge),
-              
+
               // Featured products grid
               ResponsiveGridView(
                 children: productController.products.take(4).map((product) {
@@ -228,47 +239,46 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }).toList(),
               ),
-              
+
               const SizedBox(height: AppTheme.paddingXLarge),
-              
+
               // Industry tools section
               Text(
                 'Industry Tools',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
-              
+
               const SizedBox(height: AppTheme.paddingLarge),
-              
+
               // Tools list
               Column(
                 children: [
                   FeatureCard(
                     title: 'Steel Weight Calculator',
-                    description: 'Calculate the weight of different steel products based on dimensions.',
+                    description:
+                        'Calculate the weight of different steel products based on dimensions.',
                     icon: Icons.calculate,
                     onTap: () {
                       Get.toNamed(Routes.CALCULATOR);
                     },
                   ),
-                  
                   const SizedBox(height: AppTheme.paddingMedium),
-                  
                   FeatureCard(
                     title: 'Material Requirement Estimator',
-                    description: 'Estimate material requirements for your construction project.',
+                    description:
+                        'Estimate material requirements for your construction project.',
                     icon: Icons.architecture,
                     onTap: () {
                       // TODO: Navigate to material estimator screen
                     },
                   ),
-                  
                   const SizedBox(height: AppTheme.paddingMedium),
-                  
                   FeatureCard(
                     title: 'Technical Specifications',
-                    description: 'View detailed technical specifications for all products.',
+                    description:
+                        'View detailed technical specifications for all products.',
                     icon: Icons.description,
                     onTap: () {
                       // TODO: Navigate to specifications screen
@@ -276,7 +286,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              
+
               const SizedBox(height: AppTheme.paddingXLarge),
             ],
           ),
@@ -284,13 +294,13 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     });
   }
-  
+
   Widget _buildCategoriesTab() {
     return Obx(() {
       if (productController.isLoading.value) {
         return const CustomLoadingIndicator();
       }
-      
+
       if (productController.error.value != null) {
         return CustomErrorWidget(
           message: productController.error.value!,
@@ -299,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         );
       }
-      
+
       return SingleChildScrollView(
         child: ResponsiveContainer(
           padding: const EdgeInsets.all(AppTheme.paddingLarge),
@@ -314,11 +324,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: _categories.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(right: AppTheme.paddingSmall),
+                      padding:
+                          const EdgeInsets.only(right: AppTheme.paddingSmall),
                       child: CustomChip(
                         label: _categories[index],
                         onTap: () {
-                          productController.loadProductsByCategory(_categories[index]);
+                          productController
+                              .loadProductsByCategory(_categories[index]);
                         },
                         icon: _categoryIcons[index],
                       ),
@@ -326,9 +338,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              
+
               const SizedBox(height: AppTheme.paddingLarge),
-              
+
               // Products grid
               if (productController.products.isEmpty)
                 const CustomEmptyState(
@@ -356,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     });
   }
-  
+
   Widget _buildCartTab() {
     return GetRouterOutlet.builder(
       routerDelegate: GetDelegate(
@@ -370,7 +382,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
-  
+
   Widget _buildAccountTab() {
     return GetRouterOutlet.builder(
       routerDelegate: GetDelegate(

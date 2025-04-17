@@ -17,44 +17,50 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return CustomCard(
       onTap: onTap,
       elevation: AppTheme.elevationMedium,
       padding: const EdgeInsets.all(0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Product image
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(AppTheme.borderRadiusMedium),
-              topRight: Radius.circular(AppTheme.borderRadiusMedium),
-            ),
-            child: AspectRatio(
-              aspectRatio: 1.2,
-              child: CustomImageView(
-                imageUrl: product.imageUrl,
-                fit: BoxFit.cover,
-                placeholder: Container(
-                  color: Colors.grey[200],
-                  child: Center(
-                    child: Icon(
-                      Icons.image,
-                      size: 40,
-                      color: Colors.grey[400],
+          Expanded(
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(AppTheme.borderRadiusMedium),
+                topRight: Radius.circular(AppTheme.borderRadiusMedium),
+              ),
+              child: AspectRatio(
+                aspectRatio: 1.2,
+                child: CustomImageView(
+                  imageUrl: product.imageUrl,
+                  height: 150,
+                  width: 150,
+                  // fit: BoxFit.cover,
+                  placeholder: Container(
+                    color: Colors.grey[200],
+                    child: Center(
+                      child: Icon(
+                        Icons.image,
+                        size: 40,
+                        color: Colors.grey[400],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
           ),
-          
+
           // Product details
           Padding(
-            padding: const EdgeInsets.all(AppTheme.paddingLarge),
+            padding: const EdgeInsets.all(AppTheme.paddingSmall),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 // Product name
                 Text(
@@ -65,9 +71,9 @@ class ProductCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                
+
                 const SizedBox(height: AppTheme.paddingSmall),
-                
+
                 // Product specifications
                 Text(
                   'Grade: ${product.grade} | Material: ${product.material}',
@@ -78,12 +84,13 @@ class ProductCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                
-                const SizedBox(height: AppTheme.paddingMedium),
-                
+
+                const SizedBox(height: AppTheme.paddingSmall),
+
                 // Price and action
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Price
                     Text(
@@ -93,13 +100,23 @@ class ProductCard extends StatelessWidget {
                         color: theme.colorScheme.primary,
                       ),
                     ),
-                    
+
                     // View button
-                    CustomButton(
-                      text: 'View',
+                    OutlinedButton(
                       onPressed: onTap,
-                      height: 36,
-                      backgroundColor: theme.colorScheme.primary,
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: theme.colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              AppTheme.borderRadiusCircular),
+                        ),
+                      ),
+                      child: Text(
+                        'View',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -127,7 +144,7 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return CustomCard(
       onTap: onTap,
       elevation: AppTheme.elevationSmall,
@@ -141,7 +158,8 @@ class CategoryCard extends StatelessWidget {
             height: 60,
             decoration: BoxDecoration(
               color: theme.colorScheme.primary.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(AppTheme.borderRadiusCircular),
+              borderRadius:
+                  BorderRadius.circular(AppTheme.borderRadiusCircular),
             ),
             child: Icon(
               icon,
@@ -149,9 +167,9 @@ class CategoryCard extends StatelessWidget {
               color: theme.colorScheme.primary,
             ),
           ),
-          
-          const SizedBox(height: AppTheme.paddingMedium),
-          
+
+          const SizedBox(height: AppTheme.paddingMedium - 4),
+
           // Category name
           Text(
             category,
@@ -159,7 +177,7 @@ class CategoryCard extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
-            maxLines: 2,
+            maxLines: 3,
             overflow: TextOverflow.ellipsis,
           ),
         ],
@@ -185,7 +203,7 @@ class FeatureCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return CustomCard(
       onTap: onTap,
       elevation: AppTheme.elevationSmall,
@@ -198,7 +216,8 @@ class FeatureCard extends StatelessWidget {
             height: 50,
             decoration: BoxDecoration(
               color: theme.colorScheme.secondary.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(AppTheme.borderRadiusCircular),
+              borderRadius:
+                  BorderRadius.circular(AppTheme.borderRadiusCircular),
             ),
             child: Icon(
               icon,
@@ -206,9 +225,9 @@ class FeatureCard extends StatelessWidget {
               color: theme.colorScheme.secondary,
             ),
           ),
-          
+
           const SizedBox(width: AppTheme.paddingLarge),
-          
+
           // Feature details
           Expanded(
             child: Column(
@@ -221,9 +240,9 @@ class FeatureCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                
+
                 const SizedBox(height: AppTheme.paddingSmall),
-                
+
                 // Feature description
                 Text(
                   description,
@@ -236,7 +255,7 @@ class FeatureCard extends StatelessWidget {
               ],
             ),
           ),
-          
+
           // Arrow icon
           Icon(
             Icons.arrow_forward_ios,
@@ -270,7 +289,7 @@ class PromotionBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppTheme.paddingLarge),
@@ -284,9 +303,9 @@ class PromotionBanner extends StatelessWidget {
           children: [
             // Banner content
             _buildContent(context),
-            
+
             const SizedBox(height: AppTheme.paddingLarge),
-            
+
             // Banner button
             CustomButton(
               text: buttonText,
@@ -304,9 +323,9 @@ class PromotionBanner extends StatelessWidget {
               flex: 3,
               child: _buildContent(context),
             ),
-            
+
             const SizedBox(width: AppTheme.paddingLarge),
-            
+
             // Banner button
             Expanded(
               flex: 1,
@@ -322,10 +341,10 @@ class PromotionBanner extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -337,9 +356,9 @@ class PromotionBanner extends StatelessWidget {
             color: textColor ?? Colors.white,
           ),
         ),
-        
+
         const SizedBox(height: AppTheme.paddingSmall),
-        
+
         // Banner description
         Text(
           description,
@@ -365,7 +384,7 @@ class ProductSpecificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return CustomCard(
       elevation: AppTheme.elevationSmall,
       padding: const EdgeInsets.all(AppTheme.paddingLarge),
@@ -379,27 +398,28 @@ class ProductSpecificationCard extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          
+
           const SizedBox(height: AppTheme.paddingMedium),
-          
+
           const CustomDivider(height: 1),
-          
+
           const SizedBox(height: AppTheme.paddingMedium),
-          
+
           // Specifications
           ...specifications.entries.map((entry) => _buildSpecificationRow(
-            context,
-            entry.key,
-            entry.value,
-          )),
+                context,
+                entry.key,
+                entry.value,
+              )),
         ],
       ),
     );
   }
-  
-  Widget _buildSpecificationRow(BuildContext context, String label, String value) {
+
+  Widget _buildSpecificationRow(
+      BuildContext context, String label, String value) {
     final theme = Theme.of(context);
-    
+
     return Padding(
       padding: const EdgeInsets.only(bottom: AppTheme.paddingMedium),
       child: Row(
@@ -416,7 +436,7 @@ class ProductSpecificationCard extends StatelessWidget {
               ),
             ),
           ),
-          
+
           // Specification value
           Expanded(
             child: Text(
@@ -451,7 +471,7 @@ class QuantitySelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Row(
       children: [
         // Decrease button
@@ -464,7 +484,7 @@ class QuantitySelector extends StatelessWidget {
             }
           },
         ),
-        
+
         // Quantity display
         Expanded(
           child: Container(
@@ -482,7 +502,7 @@ class QuantitySelector extends StatelessWidget {
             ),
           ),
         ),
-        
+
         // Increase button
         _buildButton(
           context,
@@ -496,10 +516,11 @@ class QuantitySelector extends StatelessWidget {
       ],
     );
   }
-  
-  Widget _buildButton(BuildContext context, IconData icon, VoidCallback onPressed) {
+
+  Widget _buildButton(
+      BuildContext context, IconData icon, VoidCallback onPressed) {
     final theme = Theme.of(context);
-    
+
     return InkWell(
       onTap: onPressed,
       child: Container(
