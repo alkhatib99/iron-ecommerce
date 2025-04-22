@@ -1,56 +1,60 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:iron_ecommerce_app/models/category.dart';
 
 class Product {
-  final String id;
-  final String name;
-  final String description;
-  final double price;
-  final String unit;
-  final Category category;
+  String? id;
+  String? name;
+  String? description;
+  double? price;
+  String? unit;
+  Category? category;
   DocumentReference? categoryRef;
 
-  final String material;
-  final String grade;
-  final String imageUrl;
+  String? material;
+  String? grade;
+  String? imageUrl;
   // final Map<String, dynamic> dimensions;
-  final bool inStock;
-  final String createdAt;
+  bool? inStock;
+  String? createdAt;
 
   Product(
-      {required this.id,
-      required this.name,
-      required this.description,
-      required this.price,
-      required this.unit,
-      required this.category,
-      required this.material,
-      required this.grade,
-      required this.imageUrl,
+      {this.id,
+      this.name,
+      this.description,
+      this.price,
+      this.unit,
+      this.category,
+      this.material,
+      this.grade,
+      this.imageUrl,
       // required this.dimensions,
-      required this.inStock,
-      required this.createdAt,
+      this.inStock,
+      this.createdAt,
       this.categoryRef});
 
   // Factory constructor to create a Product from a Map (e.g., from Firestore)
-  factory Product.fromMap(Map<String, dynamic> map, String id) {
-    final DocumentReference categoryRef = map['category'];
+  factory Product.fromJson(Map<String, dynamic> map) {
+    // check if map['category'] is DocumentReference
+    final categoryField = map['category'];
+    DocumentReference? categoryRef;
 
+    if (categoryField != null && categoryField is DocumentReference) {
+      categoryRef = categoryField;
+    }
     return Product(
-      id: id,
+      // id: id,
       name: map['name'] ?? '',
       description: map['description'] ?? '',
       price: (map['price'] is num) ? (map['price'] as num).toDouble() : 0.0,
       unit: map['unit'] ?? 'piece',
       categoryRef: categoryRef,
-      // You can fetch this later using a separate method or in the UI logic
-      category: Category(id: categoryRef.id, name: '', description: ''),
       material: map['material'] ?? '',
       grade: map['grade'] ?? '',
       imageUrl: map['imageUrl'] ?? '',
-      // dimensions: map['dimensions'] ?? {},
       inStock: map['inStock'] ?? true,
-      createdAt: map['createdAt'] != null ? map['createdAt'].toString() : '',
+      createdAt: map['createdAt']?.toString() ?? '',
     );
   }
 
@@ -61,7 +65,7 @@ class Product {
       'description': description,
       'price': price,
       'unit': unit,
-      'category': category.toMap(),
+      'category': category?.toMap(),
       'material': material,
       'grade': grade,
       'imageUrl': imageUrl,
@@ -72,26 +76,4 @@ class Product {
   }
 
   // Convert fronJson to Product
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      id: json['id'] ?? '',
-      name: json['name'] ?? '',
-      description: json['description'] ?? '',
-      price: json['price'] ?? 0.0,
-      unit: json['unit'] ?? '',
-      categoryRef: json[
-          'category'], // Assuming this is a reference to a Firestore document
-
-      // the category is a reference to a category document in Firestore
-      // category: json['category'] ?? '',
-      category: Category(id: '', name: '', description: ''),
-
-      material: json['material'] ?? '',
-      grade: json['grade'] ?? '',
-      imageUrl: json['imageUrl'] ?? '',
-      // dimensions: json['dimensions'] ?? '',
-      inStock: json['inStock'] ?? true,
-      createdAt: json['createdAt'].toString() ?? DateTime.now().toString(),
-    );
-  }
 }

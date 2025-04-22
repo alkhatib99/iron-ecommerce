@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iron_ecommerce_app/controllers/auth_controller.dart';
@@ -96,12 +98,12 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             );
           }),
-
           IconButton(
-  icon: const Icon(Icons.shopping_bag_outlined),
-  // title: const Text('My Orders'),
-  onPressed: () => Get.toNamed(Routes.ORDERS),
-),],
+            icon: const Icon(Icons.shopping_bag_outlined),
+            // title: const Text('My Orders'),
+            onPressed: () => Get.toNamed(Routes.ORDERS),
+          ),
+        ],
       ),
       body: screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -236,12 +238,13 @@ class _HomeScreenState extends State<HomeScreen> {
               // Featured products grid
               ResponsiveGridView(
                 children: productController.products.take(4).map((product) {
+                  log('Product :  $product');
                   return ProductCard(
-                    product: Product.fromJson(product),
+                    product: product,
                     onTap: () {
                       Get.toNamed(
                         Routes.PRODUCT_DETAIL,
-                        arguments: {'productId': product['id']},
+                        arguments: {'productId': product.id ?? ''},
                       );
                     },
                   );
@@ -360,11 +363,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ResponsiveGridView(
                   children: productController.products.map((product) {
                     return ProductCard(
-                      product: Product.fromJson(product),
+                      product: product,
                       onTap: () {
                         Get.toNamed(
                           Routes.PRODUCT_DETAIL,
-                          arguments: {'productId': product['id']},
+                          arguments: {'productId': product.id ?? ''},
                         );
                       },
                     );
@@ -396,16 +399,16 @@ class _HomeScreenState extends State<HomeScreen> {
         routerDelegate: GetDelegate(
           notFoundRoute: GetPage(
             name: Routes.ACCOUNT,
-            page: () => AccountScreen(),   
+            page: () => AccountScreen(),
           ),
         ),
         builder: (context, delegate, currentRoute) {
-      // final authService = Get.find<AuthService>();
-      // final auth = Get.arguments; // Get the auth argument from the route
-     return AccountScreen();
-        // currentRoute.currentPage.name
-      }
-      // If user is not logged in, sho
-    );
+          // final authService = Get.find<AuthService>();
+          // final auth = Get.arguments; // Get the auth argument from the route
+          return AccountScreen();
+          // currentRoute.currentPage.name
+        }
+        // If user is not logged in, sho
+        );
   }
 }

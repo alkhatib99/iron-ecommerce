@@ -1,12 +1,12 @@
 class Category {
-  final String id;
-  final String name;
-  final String description;
+   String? id;
+   String? name;
+   String? imageUrl;
 
   Category({
-    required this.id,
-    required this.name,
-    required this.description,
+      this.id,
+      this.name,
+      this.imageUrl,
   });
 
   // Factory constructor to create a Category from a Map (e.g., from Firestore)
@@ -14,7 +14,7 @@ class Category {
     return Category(
       id: map['id'] ?? '',
       name: map['name'] ?? '',
-      description: map['description'] ?? '',
+      imageUrl: map['imageUrl'] ?? '',
     );
   }
 
@@ -23,7 +23,7 @@ class Category {
     return {
       'id': id,
       'name': name,
-      'description': description,
+      'imageUrl': imageUrl,
     };
   }
 
@@ -32,7 +32,7 @@ class Category {
     return Category(
       id: json['id'] ?? '',
       name: json['name'] ?? '',
-      description: json['description'] ?? '',
+      imageUrl: json['imageUrl'] ?? '',
     );
   }
 }

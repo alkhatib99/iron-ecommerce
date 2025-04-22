@@ -24,11 +24,11 @@ class CartItem {
   // Factory constructor to create a CartItem from a Product
   factory CartItem.fromProduct(Product product, int quantity) {
     return CartItem(
-      productId: product.id,
-      name: product.name,
-      price: product.price,
-      unit: product.unit,
-      imageUrl: product.imageUrl,
+      productId: product.id ?? '',
+      name: product.name ?? '',
+      price: product.price ?? 0.0,
+      unit: product.unit ?? 'piece',
+      imageUrl: product.imageUrl ?? '',
       quantity: quantity,
     );
   }

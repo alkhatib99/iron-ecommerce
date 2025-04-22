@@ -92,7 +92,7 @@ class _BulkOrderWidgetState extends State<BulkOrderWidget> {
     }
     
     // Calculate total price with discount
-    _totalPrice = widget.product.price * _quantity * _discountMultiplier;
+    _totalPrice = widget.product.price! * _quantity * _discountMultiplier;
     
     setState(() {});
   }
@@ -270,7 +270,7 @@ class _BulkOrderWidgetState extends State<BulkOrderWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Unit Price:'),
-                    Text('\$${widget.product.price.toStringAsFixed(2)} / ${widget.product.unit}'),
+                    Text('\$${widget.product.price?.toStringAsFixed(2)} / ${widget.product.unit}'),
                   ],
                 ),
                 if (_discountMultiplier < 1.0) ...[

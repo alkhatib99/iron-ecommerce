@@ -1,12 +1,14 @@
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:iron_ecommerce_app/models/category.dart';
+import 'package:iron_ecommerce_app/models/product.dart';
 import '../services/firebase_service.dart';
 
 class ProductController extends GetxController {
   final FirebaseService _firebaseService;
   
   // Observable state variables
-  final products = <Map<String, dynamic>>[].obs;
+  final products = <Product>[].obs;
   final categories = <Map<String, dynamic>>[].obs;
   final isLoading = false.obs;
   final error = Rxn<String>();
@@ -32,8 +34,13 @@ class ProductController extends GetxController {
       products.value = docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         data['id'] = doc.id;
-        return data;
-      }).toList();
+        return Product.fromJson(data);
+
+            }).toList();
+
+        for (final product in products) {
+    await fetchCategory(product);
+  }
     } catch (e) {
       error.value = e.toString();
     } finally {
@@ -43,7 +50,15 @@ class ProductController extends GetxController {
   // Load products by category
     
   }
-  
+  Future<void> fetchCategory(Product product) async {
+  if (product.categoryRef != null) {
+    final doc = await product.categoryRef!.get();
+    if (doc.exists) {
+      product.category = Category.fromMap(doc.data() as Map<String, dynamic>);
+    }
+  }
+}
+
   // Load products by category
   Future<void> loadProductsByCategory(String category) async {
     isLoading.value = true;
@@ -52,9 +67,10 @@ class ProductController extends GetxController {
     try {
       List<DocumentSnapshot> docs = await _firebaseService.getProductsByCategory(category);
       products.value = docs.map((doc) {
+       
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         data['id'] = doc.id;
-        return data;
+        return Product.fromJson(data);
       }).toList();
     } catch (e) {
       error.value = e.toString();
@@ -104,7 +120,7 @@ class ProductController extends GetxController {
       products.value = snapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         data['id'] = doc.id;
-        return data;
+        return Product.fromJson(data);
       }).toList();
     }, onError: (error) {
       this.error.value = error.toString();
@@ -125,23 +141,11 @@ class ProductController extends GetxController {
   }
   
   // Search products
-  List<Map<String, dynamic>> searchProducts(String query) {
-    if (query.isEmpty) return products;
-    
-    query = query.toLowerCase();
-    return products.where((product) {
-      return product['name'].toLowerCase().contains(query) ||
-          product['description'].toLowerCase().contains(query) ||
-          product['category'].toLowerCase().contains(query) ||
-          product['material'].toLowerCase().contains(query) ||
-          product['grade'].toLowerCase().contains(query);
-    }).toList();
-  }
   
   // Filter products by price range
-  List<Map<String, dynamic>> filterByPriceRange(double minPrice, double maxPrice) {
-    return products.where((product) {
-      double price = product['price'].toDouble();
+  List<Product> filterByPriceRange(double minPrice, double maxPrice) {
+    return    products.where((product) {
+      double price = product.price ?? 0.0;
       return price >= minPrice && price <= maxPrice;
     }).toList();
   }

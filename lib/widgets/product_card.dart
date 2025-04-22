@@ -43,7 +43,7 @@ class ProductCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product.name,
+                      product.name ?? 'Product Name',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -59,7 +59,7 @@ class ProductCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '\$${product.price.toStringAsFixed(2)} / ${product.unit}',
+                          '\$${product.price?.toStringAsFixed(2)} / ${product.unit}',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

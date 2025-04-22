@@ -36,7 +36,7 @@ class ProductCard extends StatelessWidget {
               child: AspectRatio(
                 aspectRatio: 1.2,
                 child: CustomImageView(
-                  imageUrl: product.imageUrl,
+                  imageUrl: product.imageUrl ?? '',
                   height: 150,
                   width: 150,
                   // fit: BoxFit.cover,
@@ -64,7 +64,7 @@ class ProductCard extends StatelessWidget {
               children: [
                 // Product name
                 Text(
-                  product.name,
+                  product.name  ?? 'Product Name',
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -94,7 +94,7 @@ class ProductCard extends StatelessWidget {
                   children: [
                     // Price
                     Text(
-                      '\$${product.price.toStringAsFixed(2)} / ${product.unit}',
+                      '\$${product.price?.toStringAsFixed(2)} / ${product.unit}',
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.primary,

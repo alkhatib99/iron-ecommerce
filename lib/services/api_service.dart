@@ -315,7 +315,7 @@ class MockApiService {
         description: 'Standard structural I-beam for construction projects',
         price: 850.0,
         unit: 'ton',
-        category: Category(id: '1', name: 'Beams', description: 'Steel Beams'),
+        category: Category(id: '1', name: 'Beams', imageUrl: 'Steel Beams'),
         grade: 'A36',
         material: 'Carbon Steel',
         // dimensions: {
@@ -335,7 +335,7 @@ class MockApiService {
         price: 950.0,
         unit: 'ton',
         category:
-            Category(id: '2', name: 'Sheets', description: 'Steel Sheets'),
+            Category(id: '2', name: 'Sheets', ),
         grade: 'A572',
         material: 'Carbon Steel',
         // dimensions: {
@@ -354,7 +354,7 @@ class MockApiService {
             'Seamless steel pipe for structural and fluid applications',
         price: 1200.0,
         unit: 'ton',
-        category: Category(id: '3', name: 'Pipes', description: 'Steel Pipes'),
+        category: Category(id: '3', name: 'Pipes', ),
         grade: 'A53',
         material: 'Carbon Steel',
         // dimensions: {
@@ -375,7 +375,7 @@ class MockApiService {
         category: Category(
             id: '4',
             name: 'Reinforcement',
-            description: 'Steel Reinforcement Bars'),
+             ),
         grade: 'A615',
         material: 'Carbon Steel',
         // dimensions: {
@@ -393,7 +393,7 @@ class MockApiService {
         price: 820.0,
         unit: 'ton',
         category:
-            Category(id: '5', name: 'Angles', description: 'Steel Angles'),
+            Category(id: '5', name: 'Angles', ),
 
         grade: 'A36',
         material: 'Carbon Steel',
