@@ -39,6 +39,9 @@ class ProductController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+    
+  // Load products by category
+    
   }
   
   // Load products by category

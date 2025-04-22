@@ -174,4 +174,28 @@ class CartItem {
   });
 
   double get totalPrice => price * quantity;
+
+  // Factory constructor to create a CartItem from a map (e.g., from Firestore)
+  factory CartItem.fromMap(Map<String, dynamic> map) {
+    return CartItem(
+      id: map['id'] as String?,
+      productId: map['productId'] as String,
+      name: map['name'] as String,
+      price: (map['price'] is num) ? (map['price'] as num).toDouble() : 0.0,
+      unit: map['unit'] as String,
+      imageUrl: map['imageUrl'] as String,
+      quantity: map['quantity'] as int,
+    );
+  }
+  // Convert CartItem to a map (e.g., for Firestore)
+  Map<String, dynamic> toMap() {
+    return {
+      'productId': productId,
+      'name': name,
+      'price': price,
+      'unit': unit,
+      'imageUrl': imageUrl,
+      'quantity': quantity,
+    };
+  }
 }

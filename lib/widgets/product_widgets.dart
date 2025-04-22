@@ -24,7 +24,7 @@ class ProductCard extends StatelessWidget {
       padding: const EdgeInsets.all(0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // Product image
           Expanded(
@@ -59,7 +59,7 @@ class ProductCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(AppTheme.paddingSmall),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 // Product name
@@ -89,7 +89,7 @@ class ProductCard extends StatelessWidget {
 
                 // Price and action
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Price

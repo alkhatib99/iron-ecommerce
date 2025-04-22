@@ -3,6 +3,7 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:iron_ecommerce_app/models/category.dart';
 import 'package:iron_ecommerce_app/models/product.dart';
 import 'package:iron_ecommerce_app/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -314,14 +315,14 @@ class MockApiService {
         description: 'Standard structural I-beam for construction projects',
         price: 850.0,
         unit: 'ton',
-        category: 'Structural',
+        category: Category(id: '1', name: 'Beams', description: 'Steel Beams'),
         grade: 'A36',
         material: 'Carbon Steel',
-        dimensions: {
-          'width': 8,
-          'height': 8,
-          'length': 20,
-        },
+        // dimensions: {
+        //   'width': 8,
+        //   'height': 8,
+        //   'length': 20,
+        // },
         imageUrl: 'assets/images/i_beam.jpg',
         inStock: true,
         createdAt: DateTime.now().toString(),
@@ -333,14 +334,15 @@ class MockApiService {
         description: 'Hot-rolled steel sheet for various applications',
         price: 950.0,
         unit: 'ton',
-        category: 'Sheets',
+        category:
+            Category(id: '2', name: 'Sheets', description: 'Steel Sheets'),
         grade: 'A572',
         material: 'Carbon Steel',
-        dimensions: {
-          'width': 48,
-          'length': 96,
-          'thickness': 0.25,
-        },
+        // dimensions: {
+        //   'width': 48,
+        //   'length': 96,
+        //   'thickness': 0.25,
+        // },
         imageUrl: 'assets/images/steel_sheet.jpg',
         inStock: true,
         createdAt: DateTime.now().toString(),
@@ -352,14 +354,14 @@ class MockApiService {
             'Seamless steel pipe for structural and fluid applications',
         price: 1200.0,
         unit: 'ton',
-        category: 'Pipes',
+        category: Category(id: '3', name: 'Pipes', description: 'Steel Pipes'),
         grade: 'A53',
         material: 'Carbon Steel',
-        dimensions: {
-          'diameter': 6,
-          'wall_thickness': 0.28,
-          'length': 20,
-        },
+        // dimensions: {
+        //   'diameter': 6,
+        //   'wall_thickness': 0.28,
+        //   'length': 20,
+        // },
         imageUrl: 'assets/images/steel_pipe.jpg',
         inStock: true,
         createdAt: DateTime.now().toString(),
@@ -370,13 +372,16 @@ class MockApiService {
         description: 'Deformed steel bar for concrete reinforcement',
         price: 780.0,
         unit: 'ton',
-        category: 'Reinforcement',
+        category: Category(
+            id: '4',
+            name: 'Reinforcement',
+            description: 'Steel Reinforcement Bars'),
         grade: 'A615',
         material: 'Carbon Steel',
-        dimensions: {
-          'diameter': 0.75,
-          'length': 20,
-        },
+        // dimensions: {
+        //   'diameter': 0.75,
+        //   'length': 20,
+        // },
         imageUrl: 'assets/images/rebar.jpg',
         inStock: true,
         createdAt: DateTime.now().toString(),
@@ -387,15 +392,17 @@ class MockApiService {
         description: 'L-shaped structural steel for framing and supports',
         price: 820.0,
         unit: 'ton',
-        category: 'Structural',
+        category:
+            Category(id: '5', name: 'Angles', description: 'Steel Angles'),
+
         grade: 'A36',
         material: 'Carbon Steel',
-        dimensions: {
-          'width': 4,
-          'height': 4,
-          'thickness': 0.375,
-          'length': 20,
-        },
+        // dimensions: {
+        //   'width': 4,
+        //   'height': 4,
+        //   'thickness': 0.375,
+        //   'length': 20,
+        // },
         imageUrl: 'assets/images/steel_angle.jpg',
         inStock: true,
         createdAt: DateTime.now().toString(),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iron_ecommerce_app/controllers/auth_controller.dart';
 import 'package:iron_ecommerce_app/models/product.dart';
 import 'package:iron_ecommerce_app/screens/account_screen.dart';
 import 'package:iron_ecommerce_app/screens/cart_screen.getx.dart';
+import 'package:iron_ecommerce_app/screens/login_screen.dart';
+import 'package:iron_ecommerce_app/services/auth_service.dart';
 import '../../controllers/product_controller.dart';
 import '../../controllers/cart_controller.dart';
 import '../../controllers/user_controller.dart';
@@ -93,7 +96,12 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             );
           }),
-        ],
+
+          IconButton(
+  icon: const Icon(Icons.shopping_bag_outlined),
+  // title: const Text('My Orders'),
+  onPressed: () => Get.toNamed(Routes.ORDERS),
+),],
       ),
       body: screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -373,7 +381,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return GetRouterOutlet.builder(
       routerDelegate: GetDelegate(
         notFoundRoute: GetPage(
-          name: '/not-found',
+          name: Routes.CART,
           page: () => const CartScreen(),
         ),
       ),
@@ -385,15 +393,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildAccountTab() {
     return GetRouterOutlet.builder(
-      routerDelegate: GetDelegate(
-        notFoundRoute: GetPage(
-          name: '/not-found',
-          page: () => const AccountScreen(),
+        routerDelegate: GetDelegate(
+          notFoundRoute: GetPage(
+            name: Routes.ACCOUNT,
+            page: () => AccountScreen(),   
+          ),
         ),
-      ),
-      builder: (context, delegate, currentRoute) {
-        return const AccountScreen();
-      },
+        builder: (context, delegate, currentRoute) {
+      // final authService = Get.find<AuthService>();
+      // final auth = Get.arguments; // Get the auth argument from the route
+     return AccountScreen();
+        // currentRoute.currentPage.name
+      }
+      // If user is not logged in, sho
     );
   }
 }

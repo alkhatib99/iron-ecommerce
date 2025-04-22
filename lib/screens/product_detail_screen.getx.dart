@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/product_controller.dart';
@@ -15,47 +17,55 @@ class ProductDetailScreen extends StatelessWidget {
     // Get product ID from arguments
     final Map<String, dynamic> args = Get.arguments ?? {};
     final String productId = args['productId'] ?? '';
-    
+
     // GetX Controllers
     final ProductController productController = Get.find<ProductController>();
     final CartController cartController = Get.find<CartController>();
-    
+
     // Local state
     final selectedQuantity = 1.obs;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Details'),
         actions: [
           Obx(() => IconButton(
-            icon: Badge(
-              label: Text(cartController.itemCount.toString()),
-              isLabelVisible: cartController.itemCount > 0,
-              child: const Icon(Icons.shopping_cart),
-            ),
-            onPressed: () {
-              Get.toNamed(Routes.CART);
-            },
-          )),
+                icon: Badge(
+                  label: Text(cartController.itemCount.toString()),
+                  isLabelVisible: cartController.itemCount > 0,
+                  child: const Icon(Icons.shopping_cart),
+                ),
+                onPressed: () {
+                  Get.toNamed(Routes.CART);
+                },
+              )),
         ],
       ),
       body: FutureBuilder<Map<String, dynamic>?>(
+        // depugging- print('Product ID: $productId'),
+        // Fetch product details using the product ID
+
         future: productController.getProductById(productId),
         builder: (context, snapshot) {
+          log(
+            'fetching product details Product ID: $productId, Snapshot: ${snapshot.connectionState}, Error: ${snapshot.error}',
+            name: 'ProductDetailScreen',
+          );
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CustomLoadingIndicator();
           }
-          
+
           if (snapshot.hasError) {
             return CustomErrorWidget(
               message: 'Error loading product: ${snapshot.error}',
               onRetry: () {
                 // Refresh the screen
-                Get.offAndToNamed(Routes.PRODUCT_DETAIL, arguments: {'productId': productId});
+                Get.offAndToNamed(Routes.PRODUCT_DETAIL,
+                    arguments: {'productId': productId});
               },
             );
           }
-          
+
           if (!snapshot.hasData || snapshot.data == null) {
             return const CustomEmptyState(
               title: 'Product Not Found',
@@ -63,9 +73,9 @@ class ProductDetailScreen extends StatelessWidget {
               icon: Icons.error_outline,
             );
           }
-          
+
           final product = snapshot.data!;
-          
+
           return SingleChildScrollView(
             child: ResponsiveContainer(
               padding: const EdgeInsets.all(AppTheme.paddingLarge),
@@ -78,7 +88,8 @@ class ProductDetailScreen extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(AppTheme.borderRadiusMedium),
+                        borderRadius:
+                            BorderRadius.circular(AppTheme.borderRadiusMedium),
                         image: DecorationImage(
                           image: NetworkImage(product['imageUrl'] ?? ''),
                           fit: BoxFit.cover,
@@ -86,9 +97,9 @@ class ProductDetailScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: AppTheme.paddingLarge),
-                  
+
                   // Product name and price
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,9 +107,12 @@ class ProductDetailScreen extends StatelessWidget {
                       Expanded(
                         child: Text(
                           product['name'] ?? '',
-                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                       ),
                       Column(
@@ -106,10 +120,13 @@ class ProductDetailScreen extends StatelessWidget {
                         children: [
                           Text(
                             '\$${product['price']?.toStringAsFixed(2) ?? '0.00'}',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                           ),
                           Text(
                             'per ${product['unit'] ?? 'unit'}',
@@ -119,54 +136,58 @@ class ProductDetailScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: AppTheme.paddingMedium),
-                  
+
                   // Category and material
                   Wrap(
                     spacing: AppTheme.paddingSmall,
                     children: [
                       Chip(
-                        label: Text(product['category'] ?? ''),
-                        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                        label: const Text('category'),
+                        // label: Text(product['category'].get ?? ''),
+                        backgroundColor:
+                            Theme.of(context).colorScheme.primaryContainer,
                       ),
                       Chip(
                         label: Text(product['material'] ?? ''),
-                        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondaryContainer,
                       ),
                       Chip(
                         label: Text('Grade: ${product['grade'] ?? ''}'),
-                        backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.tertiaryContainer,
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: AppTheme.paddingLarge),
-                  
+
                   // Description
                   Text(
                     'Description',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   const SizedBox(height: AppTheme.paddingSmall),
                   Text(
                     product['description'] ?? '',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  
+
                   const SizedBox(height: AppTheme.paddingLarge),
-                  
+
                   // Specifications
                   Text(
                     'Specifications',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   const SizedBox(height: AppTheme.paddingSmall),
-                  
+
                   // Dimensions table
                   if (product['dimensions'] != null)
                     Table(
@@ -177,51 +198,67 @@ class ProductDetailScreen extends StatelessWidget {
                       children: [
                         TableRow(
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHighest,
                           ),
                           children: [
                             TableCell(
                               child: Padding(
-                                padding: const EdgeInsets.all(AppTheme.paddingSmall),
+                                padding:
+                                    const EdgeInsets.all(AppTheme.paddingSmall),
                                 child: Text(
                                   'Dimension',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                 ),
                               ),
                             ),
                             TableCell(
                               child: Padding(
-                                padding: const EdgeInsets.all(AppTheme.paddingSmall),
+                                padding:
+                                    const EdgeInsets.all(AppTheme.paddingSmall),
                                 child: Text(
                                   'Value',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        ...((product['dimensions'] as Map<String, dynamic>).entries.map((entry) {
+                        ...((product['dimensions'] as Map<String, dynamic>)
+                            .entries
+                            .map((entry) {
                           return TableRow(
                             children: [
                               TableCell(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(AppTheme.paddingSmall),
+                                  padding: const EdgeInsets.all(
+                                      AppTheme.paddingSmall),
                                   child: Text(
                                     entry.key.replaceAll('_', ' ') ?? '',
-                                    style: Theme.of(context).textTheme.bodyMedium,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
                               TableCell(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(AppTheme.paddingSmall),
+                                  padding: const EdgeInsets.all(
+                                      AppTheme.paddingSmall),
                                   child: Text(
                                     '${entry.value} ${entry.key == 'weight' ? 'kg' : entry.key == 'length' || entry.key == 'width' || entry.key == 'height' || entry.key == 'thickness' || entry.key == 'diameter' ? 'in' : ''}',
-                                    style: Theme.of(context).textTheme.bodyMedium,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
@@ -230,15 +267,15 @@ class ProductDetailScreen extends StatelessWidget {
                         }).toList()),
                       ],
                     ),
-                  
+
                   const SizedBox(height: AppTheme.paddingLarge),
-                  
+
                   // Quantity selector
                   Text(
                     'Quantity',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   const SizedBox(height: AppTheme.paddingSmall),
                   Row(
@@ -252,9 +289,9 @@ class ProductDetailScreen extends StatelessWidget {
                         },
                       ),
                       Obx(() => Text(
-                        selectedQuantity.value.toString(),
-                        style: Theme.of(context).textTheme.titleMedium,
-                      )),
+                            selectedQuantity.value.toString(),
+                            style: Theme.of(context).textTheme.titleMedium,
+                          )),
                       IconButton(
                         icon: const Icon(Icons.add),
                         onPressed: () {
@@ -267,17 +304,20 @@ class ProductDetailScreen extends StatelessWidget {
                       ),
                       const Spacer(),
                       Obx(() => Text(
-                        'Total: \$${(product['price'] * selectedQuantity.value).toStringAsFixed(2)}',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      )),
+                            'Total: \$${(product['price'] * selectedQuantity.value).toStringAsFixed(2)}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                          )),
                     ],
                   ),
-                  
+
                   const SizedBox(height: AppTheme.paddingXLarge),
-                  
+
                   // Add to cart button
                   SizedBox(
                     width: double.infinity,
@@ -291,7 +331,7 @@ class ProductDetailScreen extends StatelessWidget {
                           product['imageUrl'],
                           selectedQuantity.value,
                         );
-                        
+
                         Get.snackbar(
                           'Added to Cart',
                           '${product['name']} has been added to your cart.',
@@ -300,23 +340,26 @@ class ProductDetailScreen extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: AppTheme.paddingMedium),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: AppTheme.paddingMedium),
                       ),
                       child: const Text('Add to Cart'),
                     ),
                   ),
-                  
+
                   const SizedBox(height: AppTheme.paddingMedium),
-                  
+
                   // Request quote button
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () {
-                        // TODO: Implement request quote functionality
+                          // TODO: Implement request quote functionality
+                          
                       },
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: AppTheme.paddingMedium),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: AppTheme.paddingMedium),
                       ),
                       child: const Text('Request Custom Quote'),
                     ),

@@ -17,6 +17,9 @@ class AuthService {
   // Auth state changes stream
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
+  // Check if user is logged in
+  bool get isLoggedIn => _auth.currentUser != null;
+  
   // Sign in with email and password
   Future<UserCredential> signInWithEmailAndPassword(
       String email, String password) async {

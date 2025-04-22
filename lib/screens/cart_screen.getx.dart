@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iron_ecommerce_app/controllers/auth_controller.dart';
 import '../../controllers/cart_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../theme/app_theme.dart';
@@ -17,7 +18,7 @@ class CartScreen extends StatelessWidget {
     // GetX Controllers
     final CartController cartController = Get.find<CartController>();
     final UserController userController = Get.find<UserController>();
-    
+    final authController = Get.find<AuthController>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Shopping Cart'),
@@ -26,7 +27,7 @@ class CartScreen extends StatelessWidget {
         if (cartController.isLoading.value) {
           return const CustomLoadingIndicator();
         }
-        
+
         if (cartController.error.value != null) {
           return CustomErrorWidget(
             message: cartController.error.value!,
@@ -37,7 +38,7 @@ class CartScreen extends StatelessWidget {
             },
           );
         }
-        
+
         if (cartController.isEmpty) {
           return const CustomEmptyState(
             title: 'Your Cart is Empty',
@@ -45,7 +46,7 @@ class CartScreen extends StatelessWidget {
             icon: Icons.shopping_cart_outlined,
           );
         }
-        
+
         return Column(
           children: [
             Expanded(
@@ -58,25 +59,28 @@ class CartScreen extends StatelessWidget {
                       Text(
                         'Your Items',
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
-                      
+
                       const SizedBox(height: AppTheme.paddingLarge),
-                      
+
                       // Cart items list
                       ...cartController.itemsList.map((item) {
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: AppTheme.paddingMedium),
+                          padding: const EdgeInsets.only(
+                              bottom: AppTheme.paddingMedium),
                           child: Card(
                             child: Padding(
-                              padding: const EdgeInsets.all(AppTheme.paddingMedium),
+                              padding:
+                                  const EdgeInsets.all(AppTheme.paddingMedium),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   // Product image
                                   ClipRRect(
-                                    borderRadius: BorderRadius.circular(AppTheme.borderRadiusSmall),
+                                    borderRadius: BorderRadius.circular(
+                                        AppTheme.borderRadiusSmall),
                                     child: SizedBox(
                                       width: 80,
                                       height: 80,
@@ -86,30 +90,38 @@ class CartScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  
+
                                   const SizedBox(width: AppTheme.paddingMedium),
-                                  
+
                                   // Product details
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           item.name,
-                                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                         ),
-                                        
-                                        const SizedBox(height: AppTheme.paddingSmall),
-                                        
+
+                                        const SizedBox(
+                                            height: AppTheme.paddingSmall),
+
                                         Text(
                                           '\$${item.price.toStringAsFixed(2)} per ${item.unit}',
-                                          style: Theme.of(context).textTheme.bodyMedium,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
                                         ),
-                                        
-                                        const SizedBox(height: AppTheme.paddingMedium),
-                                        
+
+                                        const SizedBox(
+                                            height: AppTheme.paddingMedium),
+
                                         // Quantity selector
                                         Row(
                                           children: [
@@ -117,52 +129,67 @@ class CartScreen extends StatelessWidget {
                                               icon: const Icon(Icons.remove),
                                               onPressed: () {
                                                 if (item.quantity > 1) {
-                                                  cartController.updateQuantity(item.productId, item.quantity - 1);
+                                                  cartController.updateQuantity(
+                                                      item.productId,
+                                                      item.quantity - 1);
                                                 } else {
-                                                  cartController.removeItem(item.productId);
+                                                  cartController.removeItem(
+                                                      item.productId);
                                                 }
                                               },
                                             ),
                                             Text(
                                               item.quantity.toString(),
-                                              style: Theme.of(context).textTheme.bodyLarge,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge,
                                             ),
                                             IconButton(
                                               icon: const Icon(Icons.add),
                                               onPressed: () {
-                                                cartController.updateQuantity(item.productId, item.quantity + 1);
+                                                cartController.updateQuantity(
+                                                    item.productId,
+                                                    item.quantity + 1);
                                               },
                                             ),
                                             Text(
                                               item.unit,
-                                              style: Theme.of(context).textTheme.bodyMedium,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium,
                                             ),
                                           ],
                                         ),
                                       ],
                                     ),
                                   ),
-                                  
+
                                   // Price and remove button
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
                                         '\$${item.totalPrice.toStringAsFixed(2)}',
-                                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context).colorScheme.primary,
-                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                            ),
                                       ),
-                                      
-                                      const SizedBox(height: AppTheme.paddingMedium),
-                                      
+                                      const SizedBox(
+                                          height: AppTheme.paddingMedium),
                                       IconButton(
                                         icon: const Icon(Icons.delete_outline),
                                         onPressed: () {
-                                          cartController.removeItem(item.productId);
+                                          cartController
+                                              .removeItem(item.productId);
                                         },
-                                        color: Theme.of(context).colorScheme.error,
+                                        color:
+                                            Theme.of(context).colorScheme.error,
                                       ),
                                     ],
                                   ),
@@ -172,19 +199,19 @@ class CartScreen extends StatelessWidget {
                           ),
                         );
                       }),
-                      
+
                       const SizedBox(height: AppTheme.paddingLarge),
-                      
+
                       // Order summary
                       Text(
                         'Order Summary',
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
-                      
+
                       const SizedBox(height: AppTheme.paddingMedium),
-                      
+
                       Card(
                         child: Padding(
                           padding: const EdgeInsets.all(AppTheme.paddingMedium),
@@ -192,89 +219,116 @@ class CartScreen extends StatelessWidget {
                             children: [
                               // Subtotal
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Subtotal',
-                                    style: Theme.of(context).textTheme.bodyLarge,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   Text(
                                     '\$${cartController.subtotal.toStringAsFixed(2)}',
-                                    style: Theme.of(context).textTheme.bodyLarge,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 ],
                               ),
-                              
+
                               const SizedBox(height: AppTheme.paddingSmall),
-                              
+
                               // Shipping
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Shipping',
-                                    style: Theme.of(context).textTheme.bodyLarge,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   Text(
                                     cartController.shippingCost > 0
                                         ? '\$${cartController.shippingCost.toStringAsFixed(2)}'
                                         : 'Free',
-                                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                      color: cartController.shippingCost > 0
-                                          ? null
-                                          : Theme.of(context).colorScheme.primary,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.copyWith(
+                                          color: cartController.shippingCost > 0
+                                              ? null
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                        ),
                                   ),
                                 ],
                               ),
-                              
+
                               const SizedBox(height: AppTheme.paddingSmall),
-                              
+
                               // Tax
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Tax (8%)',
-                                    style: Theme.of(context).textTheme.bodyLarge,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   Text(
                                     '\$${cartController.tax.toStringAsFixed(2)}',
-                                    style: Theme.of(context).textTheme.bodyLarge,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 ],
                               ),
-                              
+
                               const Divider(height: AppTheme.paddingLarge),
-                              
+
                               // Total
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Total',
-                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                   ),
                                   Text(
                                     '\$${cartController.total.toStringAsFixed(2)}',
-                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).colorScheme.primary,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
                                   ),
                                 ],
                               ),
-                              
+
                               if (cartController.subtotal < 1000) ...[
                                 const SizedBox(height: AppTheme.paddingMedium),
                                 Text(
                                   'Add \$${(1000 - cartController.subtotal).toStringAsFixed(2)} more to qualify for free shipping!',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Theme.of(context).colorScheme.primary,
-                                    fontStyle: FontStyle.italic,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        fontStyle: FontStyle.italic,
+                                      ),
                                   textAlign: TextAlign.center,
                                 ),
                               ],
@@ -287,7 +341,7 @@ class CartScreen extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             // Checkout button
             Container(
               padding: const EdgeInsets.all(AppTheme.paddingLarge),
@@ -314,10 +368,13 @@ class CartScreen extends StatelessWidget {
                         ),
                         Text(
                           '\$${cartController.total.toStringAsFixed(2)}',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                         ),
                       ],
                     ),
@@ -325,14 +382,11 @@ class CartScreen extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        if (userController.isLoggedIn) {
-                          Get.toNamed(Routes.CHECKOUT);
-                        } else {
-                          Get.toNamed(Routes.LOGIN, arguments: {'redirect': Routes.CHECKOUT});
-                        }
+                        Get.toNamed(Routes.CHECKOUT);
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: AppTheme.paddingMedium),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: AppTheme.paddingMedium),
                       ),
                       child: const Text('Proceed to Checkout'),
                     ),

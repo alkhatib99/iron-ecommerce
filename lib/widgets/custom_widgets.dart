@@ -8,6 +8,7 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isLoading;
   final bool isOutlined;
+  final Image? image;
   final IconData? icon;
   final double? width;
   final double height;
@@ -20,17 +21,18 @@ class CustomButton extends StatelessWidget {
     required this.onPressed,
     this.isLoading = false,
     this.isOutlined = false,
-    this.icon,
+    this.image,
     this.width,
     this.height = 50.0,
     this.backgroundColor,
+    this.icon,
     this.textColor,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     if (isOutlined) {
       return SizedBox(
         width: width,
@@ -48,7 +50,7 @@ class CustomButton extends StatelessWidget {
         ),
       );
     }
-    
+
     return SizedBox(
       width: width,
       height: height,
@@ -62,17 +64,28 @@ class CustomButton extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildButtonContent(BuildContext context) {
     if (isLoading) {
       return SpinKitThreeBounce(
-        color: isOutlined 
-            ? (textColor ?? Theme.of(context).colorScheme.primary) 
+        color: isOutlined
+            ? (textColor ?? Theme.of(context).colorScheme.primary)
             : (textColor ?? Colors.white),
         size: 24.0,
       );
     }
-    
+
+    if (image != null) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          image!,
+          // Icon(icon, size: 20),
+          const SizedBox(width: 8),
+          Text(text),
+        ],
+      );
+    }
     if (icon != null) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -83,7 +96,7 @@ class CustomButton extends StatelessWidget {
         ],
       );
     }
-    
+
     return Text(text);
   }
 }
@@ -109,16 +122,18 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Card(
       elevation: elevation,
       color: backgroundColor ?? theme.cardColor,
       shape: RoundedRectangleBorder(
-        borderRadius: borderRadius ?? BorderRadius.circular(AppTheme.borderRadiusMedium),
+        borderRadius:
+            borderRadius ?? BorderRadius.circular(AppTheme.borderRadiusMedium),
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: borderRadius ?? BorderRadius.circular(AppTheme.borderRadiusMedium),
+        borderRadius:
+            borderRadius ?? BorderRadius.circular(AppTheme.borderRadiusMedium),
         child: Padding(
           padding: padding,
           child: child,
@@ -208,28 +223,32 @@ class CustomImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     Widget image;
-    
+
     if (imageUrl.startsWith('http')) {
       image = CachedNetworkImage(
         imageUrl: imageUrl,
         width: width,
         height: height,
         fit: fit,
-        placeholder: (context, url) => placeholder ?? Center(
-          child: SpinKitFadingCircle(
-            color: theme.colorScheme.primary,
-            size: 30.0,
-          ),
-        ),
-        errorWidget: (context, url, error) => errorWidget ?? Center(
-          child: Icon(
-            Icons.error_outline,
-            color: theme.colorScheme.error,
-            size: 30.0,
-          ),
-        ),
+        placeholder: (context, url) =>
+            placeholder ??
+            Center(
+              child: SpinKitFadingCircle(
+                color: theme.colorScheme.primary,
+                size: 30.0,
+              ),
+            ),
+        errorWidget: (context, url, error) =>
+            errorWidget ??
+            Center(
+              child: Icon(
+                Icons.error_outline,
+                color: theme.colorScheme.error,
+                size: 30.0,
+              ),
+            ),
       );
     } else {
       // Assume it's an asset image
@@ -238,23 +257,25 @@ class CustomImageView extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
-        errorBuilder: (context, error, stackTrace) => errorWidget ?? Center(
-          child: Icon(
-            Icons.error_outline,
-            color: theme.colorScheme.error,
-            size: 30.0,
-          ),
-        ),
+        errorBuilder: (context, error, stackTrace) =>
+            errorWidget ??
+            Center(
+              child: Icon(
+                Icons.error_outline,
+                color: theme.colorScheme.error,
+                size: 30.0,
+              ),
+            ),
       );
     }
-    
+
     if (borderRadius != null) {
       return ClipRRect(
         borderRadius: borderRadius!,
         child: image,
       );
     }
-    
+
     return image;
   }
 }
@@ -329,7 +350,7 @@ class CustomBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -386,27 +407,29 @@ class CustomChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return FilterChip(
       label: Text(label),
       selected: isSelected,
       onSelected: onTap != null ? (_) => onTap!() : null,
       backgroundColor: backgroundColor ?? theme.chipTheme.backgroundColor,
-      selectedColor: backgroundColor != null 
-          ? backgroundColor!.withOpacity(0.7) 
+      selectedColor: backgroundColor != null
+          ? backgroundColor!.withOpacity(0.7)
           : theme.colorScheme.primary.withOpacity(0.2),
       labelStyle: TextStyle(
-        color: isSelected 
-            ? (textColor ?? theme.colorScheme.primary) 
+        color: isSelected
+            ? (textColor ?? theme.colorScheme.primary)
             : (textColor ?? theme.textTheme.bodyMedium?.color),
       ),
-      avatar: icon != null ? Icon(
-        icon,
-        size: 16.0,
-        color: isSelected 
-            ? (textColor ?? theme.colorScheme.primary) 
-            : (textColor ?? theme.textTheme.bodyMedium?.color),
-      ) : null,
+      avatar: icon != null
+          ? Icon(
+              icon,
+              size: 16.0,
+              color: isSelected
+                  ? (textColor ?? theme.colorScheme.primary)
+                  : (textColor ?? theme.textTheme.bodyMedium?.color),
+            )
+          : null,
     );
   }
 }
@@ -430,7 +453,7 @@ class CustomEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -459,10 +482,9 @@ class CustomEmptyState extends StatelessWidget {
             if (onActionPressed != null && actionText != null) ...[
               const SizedBox(height: 24.0),
               CustomButton(
-                text: actionText!,
-                onPressed: onActionPressed!,
-                icon: Icons.refresh,
-              ),
+                  text: actionText!,
+                  onPressed: onActionPressed!,
+                  icon: Icons.refresh),
             ],
           ],
         ),
@@ -484,7 +506,7 @@ class CustomErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24.0),

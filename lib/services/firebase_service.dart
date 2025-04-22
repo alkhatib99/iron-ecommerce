@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -15,8 +17,10 @@ class FirebaseService {
 
   // Collection references
   CollectionReference get usersCollection => _firestore.collection('users');
-  CollectionReference get productsCollection => _firestore.collection('products');
-  CollectionReference get categoriesCollection => _firestore.collection('categories');
+  CollectionReference get productsCollection =>
+      _firestore.collection('products');
+  CollectionReference get categoriesCollection =>
+      _firestore.collection('categories');
   CollectionReference get ordersCollection => _firestore.collection('orders');
   CollectionReference get cartCollection => _firestore.collection('carts');
 
@@ -49,9 +53,8 @@ class FirebaseService {
   }
 
   Future<List<DocumentSnapshot>> getProductsByCategory(String category) async {
-    QuerySnapshot snapshot = await productsCollection
-        .where('category', isEqualTo: category)
-        .get();
+    QuerySnapshot snapshot =
+        await productsCollection.where('category', isEqualTo: category).get();
     return snapshot.docs;
   }
 
@@ -80,10 +83,20 @@ class FirebaseService {
   }
 
   Future<List<DocumentSnapshot>> getUserOrders(String uid) async {
+    //Log everything
+
+    log('Loading user orders... - firebase_service.dart');
     QuerySnapshot snapshot = await ordersCollection
         .where('userId', isEqualTo: uid)
-        .orderBy('createdAt', descending: true)
+        // .orderBy('createdAt', descending: true)
         .get();
+    log('User ID: $uid - firebase_service.dart');
+    log('User orders loaded: ${uid} - firebase_service.dart');
+    log('User orders: ${uid} - firebase_service.dart');
+    log('User orders: ${snapshot.docs.length} - firebase_service.dart');
+    log('User orders: ${snapshot.docs} - firebase_service.dart');
+    log('User orders: ${snapshot.docs[0].data()} - firebase_service.dart');
+    log('User orders: ${snapshot.docs[0].id} - firebase_service.dart');
     return snapshot.docs;
   }
 
@@ -122,9 +135,8 @@ class FirebaseService {
   }
 
   Future<void> clearCart(String userId) async {
-    QuerySnapshot cartItems = await cartCollection
-        .where('userId', isEqualTo: userId)
-        .get();
+    QuerySnapshot cartItems =
+        await cartCollection.where('userId', isEqualTo: userId).get();
 
     WriteBatch batch = _firestore.batch();
     for (var doc in cartItems.docs) {
@@ -134,16 +146,13 @@ class FirebaseService {
   }
 
   Future<List<DocumentSnapshot>> getCartItems(String userId) async {
-    QuerySnapshot snapshot = await cartCollection
-        .where('userId', isEqualTo: userId)
-        .get();
+    QuerySnapshot snapshot =
+        await cartCollection.where('userId', isEqualTo: userId).get();
     return snapshot.docs;
   }
 
   Stream<QuerySnapshot> getCartItemsStream(String userId) {
-    return cartCollection
-        .where('userId', isEqualTo: userId)
-        .snapshots();
+    return cartCollection.where('userId', isEqualTo: userId).snapshots();
   }
 
   // Storage methods

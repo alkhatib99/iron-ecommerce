@@ -74,30 +74,26 @@ class AuthController extends GetxController {
   }
   
   // Sign in with Google
-  Future<void> signInWithGoogle() async {
+  Future<bool> signInWithGoogle() async {
     isLoading.value = true;
     error.value = null;
-    
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
         error.value = 'Sign in aborted by user';
         isLoading.value = false;
-        return;
+        return false;
       }
-      
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      
       UserCredential userCredential =
           await _auth.signInWithCredential(credential);
-      
       // Check if this is a new user
-      if (userCredential.additionalUserInfo?.isNewUser ?? false) {
+      // if (userCredential.additionalUserInfo?.isNewUser ?? false) {
         // Create user document in Firestore
         await _firebaseService.createUserDocument(
           userCredential.user!,
@@ -105,12 +101,47 @@ class AuthController extends GetxController {
           userCredential.user?.phoneNumber ?? '',
         );
       }
-    } catch (e) {
+    catch (e) {
       error.value = e.toString();
+      return false;
     } finally {
       isLoading.value = false;
     }
-  }
+    return true;
+  } 
+  //   try {
+  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+  //     if (googleUser == null) {
+  //       error.value = 'Sign in aborted by user';
+  //       isLoading.value = false;
+  //       return;
+  //     }
+      
+  //     final GoogleSignInAuthentication googleAuth =
+  //         await googleUser.authentication;
+  //     final credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth.accessToken,
+  //       idToken: googleAuth.idToken,
+  //     );
+      
+  //     UserCredential userCredential =
+  //         await _auth.signInWithCredential(credential);
+      
+  //     // Check if this is a new user
+  //     if (userCredential.additionalUserInfo?.isNewUser ?? false) {
+  //       // Create user document in Firestore
+  //       await _firebaseService.createUserDocument(
+  //         userCredential.user!,
+  //         userCredential.user?.displayName ?? 'User',
+  //         userCredential.user?.phoneNumber ?? '',
+  //       );
+  //     }
+  //   } catch (e) {
+  //     error.value = e.toString();
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
   
   // Sign out
   Future<void> signOut() async {
